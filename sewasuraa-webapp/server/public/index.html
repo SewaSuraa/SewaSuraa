@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SewaSuraa</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<section id="login" class="card">
+  <h1>SewaSuraa</h1>
+  <p class="subtitle">کۆدی دەستگەیشتن بنووسە</p>
+
+  <input id="codeInput" class="input" placeholder="SEWA-1111" autocomplete="off" />
+  <button id="loginBtn" class="primary">چوونەژوورەوە</button>
+  <p id="loginMsg" class="feedback"></p>
+</section>
+
+<!-- APP (dein Menü/Spiele kommen hier rein) -->
+<section id="app" class="card hidden">
+  <div class="toprow">
+    <p id="who" class="subtitle"></p>
+    <button id="logoutBtn" class="secondary">دەرچوون</button>
+  </div>
+
+  <h2>هەڵبژاردن</h2>
+  <div class="grid">
+    <button class="tile">🔢 ژمارەکان</button>
+    <button class="tile">🎨 ڕەنگەکان</button>
+    <button class="tile">😊 هەستەکان</button>
+    <button class="tile">🧠 ئەو منداڵە چی دەکات؟</button>
+  </div>
+
+  <p class="hint">✅ ئەمە تەنها نمونەیە — ئێمە دواتر یاریەکانت دەهێنینە ئەمەوە</p>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
