@@ -637,6 +637,8 @@ function loadLetterTask(){
   });
 }
 
-
-
 });
+document.getElementById("startBtn").addEventListener("click", () => {
+  alert("Button geklickt");
+});
+
