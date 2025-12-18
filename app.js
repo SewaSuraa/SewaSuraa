@@ -638,7 +638,42 @@ function loadLetterTask(){
 }
 
 });
-document.getElementById("startBtn").addEventListener("click", () => {
-  alert("Button geklickt");
+const startBtn = document.getElementById("startBtn");
+const codeGate = document.getElementById("codeGate");
+const codeInput = document.getElementById("codeInput");
+const codeSubmit = document.getElementById("codeSubmit");
+const codeError = document.getElementById("codeError");
+
+// ✅ Test-Codes (später machen wir das sicher über Server)
+const VALID_CODES = ["1234", "SEWA2025", "ABC"];
+
+startBtn.addEventListener("click", () => {
+  // Start-Ansicht ausblenden (falls du einen Start-Container hast)
+  // Wenn du keinen hast, ist das nicht schlimm.
+  // Beispiel: document.getElementById("hero").classList.add("hidden");
+
+  codeGate.classList.remove("hidden");
+  codeInput.focus();
+});
+
+function checkCode() {
+  const v = (codeInput.value || "").trim();
+  if (VALID_CODES.includes(v)) {
+    codeError.style.display = "none";
+    codeGate.classList.add("hidden");
+
+    // ✅ Danach weiter zur nächsten Seite/menü
+    // Wenn du ein Menü hast (wie auf deinem Screenshot: section id="menu")
+    const menu = document.getElementById("menu");
+    if (menu) menu.classList.remove("hidden");
+  } else {
+    codeError.style.display = "block";
+  }
+}
+
+codeSubmit.addEventListener("click", checkCode);
+
+codeInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") checkCode();
 });
 
