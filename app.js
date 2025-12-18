@@ -655,6 +655,20 @@ startBtn.addEventListener("click", () => {
   codeGate.classList.remove("hidden");
   codeInput.focus();
 });
+codeSubmit.addEventListener("click", () => {
+  const enteredCode = codeInput.value.trim();
+
+  if (VALID_CODES.includes(enteredCode)) {
+    codeError.style.display = "none";
+    codeGate.classList.add("hidden");
+    document.getElementById("menu").classList.remove("hidden");
+    
+  } else {
+    codeError.style.display = "block";
+  }
+});
+
+
 
 function checkCode() {
   const v = (codeInput.value || "").trim();
