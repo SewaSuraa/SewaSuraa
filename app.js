@@ -318,8 +318,7 @@ function playWrong(){ playAudio("audio/rastnia.mp3"); }
 
   /* ================= NAVIGATION ================= */
   show(welcome);
-
-  startBtn && (startBtn.onclick = () => show(menu));
+  
   backWelcome && (backWelcome.onclick = () => show(welcome));
   backMenu && (backMenu.onclick = () => show(menu));
   backMenuFromFeelings && (backMenuFromFeelings.onclick = () => show(menu));
