@@ -1,3 +1,5 @@
+const API_BASE = "https://api.sewasuraa.com";
+
 document.addEventListener("DOMContentLoaded", () => {
 
 let currentAudio = null;
@@ -70,8 +72,42 @@ const codeInput  = document.getElementById("codeInput");
 const codeSubmit = document.getElementById("codeSubmit");
 const codeError  = document.getElementById("codeError");
 
-// Test-Codes (später sicher über Server)
-const VALID_CODES = ["1234", "SEWA2025", "ABC"];
+async function checkCode(){
+  const v = (codeInput.value || "").trim();
+
+  if(!v){
+    codeError.style.display = "block";
+    codeError.textContent = "Bitte Code eingeben.";
+    return;
+  }
+
+  try{
+    codeSubmit.disabled = true;
+    codeError.style.display = "none";
+
+    const res = await fetch(`${API_BASE}/codes/verify`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: v })
+    });
+
+    const data = await res.json().catch(()=> ({}));
+
+    if(res.ok && data.valid === true){
+      codeGate.classList.add("hidden");
+      show(menu);
+    } else {
+      codeError.style.display = "block";
+      codeError.textContent = data.message || "Code ungültig oder abgelaufen.";
+    }
+
+  } catch(err){
+    codeError.style.display = "block";
+    codeError.textContent = "API nicht erreichbar. Bitte später erneut.";
+  } finally {
+    codeSubmit.disabled = false;
+  }
+}
 
 // Startbutton: zeigt Code-Eingabe statt Menü
 startBtn.onclick = () => {
