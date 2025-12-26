@@ -713,3 +713,43 @@ function loadLetterTask(){
 }
 
 });
+
+  const codeSubmit = document.getElementById("codeSubmit");
+  const codeInput = document.getElementById("codeInput");
+
+  // Falls du ein Ergebnis-Element hast, nutz das:
+  // <p id="codeResult"></p>
+  // Wenn nicht, kannst du es gleich anlegen (siehe unten).
+  const codeResult = document.getElementById("codeResult");
+
+  codeSubmit.addEventListener("click", async () => {
+    const userCode = (codeInput.value || "").trim();
+
+    if (!userCode) {
+      if (codeResult) codeResult.innerText = "Bitte Code eingeben";
+      return;
+    }
+
+    if (codeResult) codeResult.innerText = "⏳ Prüfe Code...";
+
+    try {
+      const r = await fetch("https://api.sewasuraa.com/codes/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: userCode })
+      });
+
+      const data = await r.json();
+
+      if (data.valid) {
+        if (codeResult) codeResult.innerText = "✅ Code gültig";
+        // TODO: freischalten / weiterleiten / content anzeigen
+      } else {
+        if (codeResult) codeResult.innerText = "❌ Code ungültig";
+      }
+    } catch (e) {
+      if (codeResult) codeResult.innerText = "⚠️ Fehler: API nicht erreichbar";
+    }
+  });
+
+
