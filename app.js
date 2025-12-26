@@ -1,3 +1,5 @@
+console.log("app.js geladen ✅");
+
 const API_BASE = "https://api.sewasuraa.com";
 
 document.addEventListener("DOMContentLoaded", () => {
