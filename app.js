@@ -5,8 +5,7 @@ const API_BASE = "https://api.sewasuraa.com";
 function getDeviceId() {
   let id = localStorage.getItem("device_id");
   if (!id) {
-    // einfache zufällige ID
-    id = (crypto?.randomUUID?.() || ("dev_" + Math.random().toString(36).slice(2) + Date.now()));
+    id = crypto.randomUUID();
     localStorage.setItem("device_id", id);
   }
   return id;
