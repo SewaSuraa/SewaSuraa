@@ -120,15 +120,36 @@ startBtn.onclick = () => {
   codeInput.focus();
 };
 
-function checkCode(){
+async function checkCode() {
   const v = (codeInput.value || "").trim();
 
-  if(VALID_CODES.includes(v)){
-    codeError.style.display = "none";
-    codeGate.classList.add("hidden");
-    show(menu); // ✅ dein eigenes show() benutzen
-  } else {
+  if (!v) {
     codeError.style.display = "block";
+    codeError.textContent = "Bitte Code eingeben";
+    return;
+  }
+
+  codeError.style.display = "none";
+
+  try {
+    const r = await fetch("https://api.sewasuraa.com/codes/verify", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ code: v })
+    });
+
+    const data = await r.json();
+
+    if (data.valid) {
+      codeGate.classList.add("hidden");
+      show(menu); // ✅ weiter
+    } else {
+      codeError.style.display = "block";
+      codeError.textContent = "❌ Code ungültig";
+    }
+  } catch (err) {
+    codeError.style.display = "block";
+    codeError.textContent = "⚠️ API nicht erreichbar";
   }
 }
 
