@@ -5,7 +5,7 @@ const API_BASE = "https://api.sewasuraa.com";
 function getDeviceId() {
   let id = localStorage.getItem("device_id");
   if (!id) {
-    id = crypto.randomUUID();
+    id = (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random());
     localStorage.setItem("device_id", id);
   }
   return id;
@@ -90,17 +90,13 @@ async function checkCode() {
   codeError.style.display = "none";
   codeSubmit.disabled = true;
 
-  const device_id = getDeviceId(); // ← HIER kommt es rein
+const device_id = getDeviceId();
 
-  try {
-    const r = await fetch(`${API_BASE}/codes/verify`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        code: userCode,
-        device_id: device_id
-      })
-    });
+const r = await fetch(`${API_BASE}/codes/verify`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ code: userCode, device_id })
+});
 
     const data = await r.json();
 
