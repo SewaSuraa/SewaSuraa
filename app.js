@@ -2,6 +2,16 @@ console.log("app.js geladen ✅");
 
 const API_BASE = "https://api.sewasuraa.com";
 
+function getDeviceId() {
+  let id = localStorage.getItem("device_id");
+  if (!id) {
+    // einfache zufällige ID
+    id = (crypto?.randomUUID?.() || ("dev_" + Math.random().toString(36).slice(2) + Date.now()));
+    localStorage.setItem("device_id", id);
+  }
+  return id;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 
 let currentAudio = null;
@@ -74,38 +84,36 @@ const codeInput  = document.getElementById("codeInput");
 const codeSubmit = document.getElementById("codeSubmit");
 const codeError  = document.getElementById("codeError");
 
-async function checkCode(){
-  const v = (codeInput.value || "").trim();
+async function checkCode() {
+  const userCode = (codeInput.value || "").trim();
+  if (!userCode) return;
 
-  if(!v){
-    codeError.style.display = "block";
-    codeError.textContent = "Bitte Code eingeben.";
-    return;
-  }
+  codeError.style.display = "none";
+  codeSubmit.disabled = true;
 
-  try{
-    codeSubmit.disabled = true;
-    codeError.style.display = "none";
+  const device_id = getDeviceId(); // ← HIER kommt es rein
 
-    const res = await fetch(`${API_BASE}/codes/verify`, {
+  try {
+    const r = await fetch(`${API_BASE}/codes/verify`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ code: v })
+      body: JSON.stringify({
+        code: userCode,
+        device_id: device_id
+      })
     });
 
-    const data = await res.json().catch(()=> ({}));
+    const data = await r.json();
 
-    if(res.ok && data.valid === true){
+    if (data.valid) {
       codeGate.classList.add("hidden");
-      show(menu);
+      show(menu); // ✅ weiter zur App
     } else {
       codeError.style.display = "block";
-      codeError.textContent = data.message || "Code ungültig oder abgelaufen.";
     }
-
-  } catch(err){
+  } catch (err) {
     codeError.style.display = "block";
-    codeError.textContent = "API nicht erreichbar. Bitte später erneut.";
+    console.error("API Fehler", err);
   } finally {
     codeSubmit.disabled = false;
   }
