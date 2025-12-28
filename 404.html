@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SewaSuraa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section id="welcome" class="card">
+  <h1>SewaSuraa</h1>
+  <p class="subtitle">بەخێر بێیت بۆ ماڵی من 👋</p>
+
+  <img src="images/kind_winkt.png" class="hero" alt="منداڵ دەست لێدەدات">
+
+  <p class="big">
+    بەخێر بێیت بۆ ماڵی من، من ناوم سێوە سورەیە، تەمەنم ٦ ساڵە،
+    من لەگەڵ خۆم فێری هەموو ئەو شتانەت دەکەم کە خۆم دەیزانم،
+    وەرە لەگەڵم با یاری بە یەکەوە بکەین 🙂
+  </p>
+
+  <button id="startBtn" class="primary">دەستپێبکەین</button>
+  <section id="codeGate" class="card hidden" dir="rtl">
+  <h2>کۆد بنوسە</h2>
+
+  <input
+    id="codeInput"
+    type="text"
+    placeholder="کۆد..."
+    autocomplete="off"
+    style="width:100%; padding:12px; border-radius:12px; border:1px solid #ddd; font-size:16px;"
+  />
+
+  <button id="codeSubmit" class="primary" style="margin-top:12px;">OK</button>
+
+  <p id="codeError" style="color:#c00; margin-top:10px; display:none;">
+    کۆد هەڵەیە ❌
+  </p>
+</section>
+
+</section>
+
+<section id="menu" class="card hidden">
+  <h2>هەڵبژاردن</h2>
+
+  <div class="grid">
+    <button id="goNumbers" class="tile">🔢 ژمارەکان</button>
+    <button id="goColors" class="tile">🎨 ڕەنگەکان</button>
+    <button id="goFeelings" class="tile">😊 هەستەکان</button>
+    <button id="goLetters" class="tile">🔤 پیتەکان</button>
+    <button id="goGame" class="tile">🧠 ئەو منداڵە چی ئەکات؟</button>
+    <button class="tile soon">🧩 پازل (بەم زوانە)</button>
+    <button class="tile soon">🍎 خواردن (بەم زوانە)</button>
+    <button class="tile soon">🐄 ئاژەڵ و بەرهەمەکان (بەم زوانە)</button>
+    <button class="tile soon">📏 گەورە / بچووک (بەم زوانە)</button>
+    <button class="tile soon">🧠 بیرکردنەوە (بەم زوانە)</button>
+    <button id="goShop" class="tile">🛍️ بۆ دایک و باوک – بەرهەمەکان</button>
+  </div>
+
+  <button id="backWelcome" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+</section>
+
+
+
+<section id="game" class="card hidden">
+  <div class="toprow">
+    <button id="backMenu" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="stars" class="stars">⭐ 0</p>
+  </div>
+
+  <img id="img" class="animal" alt="">
+  <p id="q" class="question"></p>
+
+  <div class="answers">
+    <button id="b0" type="button"></button>
+    <button id="b1" type="button"></button>
+    <button id="b2" type="button"></button>
+  </div>
+
+  <p id="fb" class="feedback"></p>
+</section>
+
+
+
+<section id="feelings" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromFeelings" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="fstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="fq" class="question"></p>
+
+  <div class="answers images">
+    <button id="f0" type="button"><img alt=""></button>
+    <button id="f1" type="button"><img alt=""></button>
+    <button id="f2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="ffb" class="feedback"></p>
+</section>
+
+
+
+<section id="numbers" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromNumbers" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="nstars" class="stars">⭐ 0</p>
+  </div>
+
+  <img id="nimg" class="animal" alt="">
+  <p class="question">ئەوە چەند پەنجەیە؟</p>
+
+  <div class="answers">
+    <button id="n0"></button>
+    <button id="n1"></button>
+    <button id="n2"></button>
+  </div>
+
+  <p id="nfb" class="feedback"></p>
+</section>
+
+<section id="colors" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromColors" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="cstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="cq" class="question">کام ڕەنگە سوورە؟</p>
+
+  <div class="answers colors">
+    <button id="c0" class="colorBtn" type="button"><span class="dot"></span></button>
+    <button id="c1" class="colorBtn" type="button"><span class="dot"></span></button>
+    <button id="c2" class="colorBtn" type="button"><span class="dot"></span></button>
+  </div>
+
+  <p id="cfb" class="feedback"></p>
+</section>
+
+
+<section id="letters" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromLetters" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="lstars" class="stars">⭐ 0</p>
+  </div>
+
+  <img id="limg" class="animal" alt="">
+  <p id="lq" class="question">ئەم وێنەیە بە کام پیت دەست پێدەکات؟</p>
+
+  <div class="answers">
+    <button id="l0" type="button"></button>
+    <button id="l1" type="button"></button>
+    <button id="l2" type="button"></button>
+  </div>
+
+  <p id="lfb" class="feedback"></p>
+</section>
+
+
+
+<section id="shop" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromShop" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+  </div>
+
+  <h2>🛍️ بەرهەمەکان</h2>
+  <p class="subtitle">بۆ دایک و باوک</p>
+
+  <div class="products">
+    <div class="product">
+      <img src="images/products/book1.png" alt="">
+      <h3>📘 کتێبی فێربوونی منداڵان</h3>
+      <p>بۆ تەمەن ٤–٧ ساڵ</p>
+      <button class="primary">زیاتر بزانە</button>
+    </div>
+
+    <div class="product">
+      <img src="images/products/game1.png" alt="">
+      <h3>🎲 یاری فێربوون</h3>
+      <p>فێربوونی ژمارە و ڕەنگ</p>
+      <button class="primary">زیاتر بزانە</button>
+    </div>
+  </div>
+</section>
+
+
+<script src="app.js?v=1"></script>
+</body>
+</html>
