@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let i = 0;
-
     function playNext() {
       if (i >= paths.length) return;
 
@@ -36,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
       };
       currentAudio.play().catch(() => {});
     }
-
     playNext();
   }
 
@@ -122,16 +120,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* ============ CODE CHECK (NUR 1x) ============ */
   async function checkCode() {
-    const userCode = (codeInput.value || "").trim();
+    const userCode = (codeInput?.value || "").trim();
 
     if (!userCode) {
-      codeError.style.display = "block";
-      codeError.textContent = "کۆد بنوسە 🙂";
+      if (codeError) {
+        codeError.style.display = "block";
+        codeError.textContent = "کۆد بنوسە 🙂";
+      }
       return;
     }
 
-    codeError.style.display = "none";
-    codeSubmit.disabled = true;
+    if (codeError) {
+      codeError.style.display = "none";
+      codeError.textContent = "";
+    }
+    if (codeSubmit) codeSubmit.disabled = true;
 
     try {
       const device_id = getDeviceId();
@@ -146,45 +149,57 @@ document.addEventListener("DOMContentLoaded", () => {
       try { data = await r.json(); } catch { data = null; }
 
       if (r.ok && data && data.valid) {
-        // ✅ Weiter zur App
         show(menu);
       } else {
-        codeError.style.display = "block";
-        codeError.textContent = "کۆد هەڵەیە ❌";
+        if (codeError) {
+          codeError.style.display = "block";
+          codeError.textContent = "کۆد هەڵەیە ❌";
+        }
       }
     } catch (err) {
       console.error("API Fehler", err);
-      codeError.style.display = "block";
-      codeError.textContent = "⚠️ API کار ناکات / هەڵەی ئینتەرنێت";
+      if (codeError) {
+        codeError.style.display = "block";
+        codeError.textContent = "⚠️ API کار ناکات / هەڵەی ئینتەرنێت";
+      }
     } finally {
-      codeSubmit.disabled = false;
+      if (codeSubmit) codeSubmit.disabled = false;
     }
   }
 
   /* ============ START BUTTON ============ */
-  startBtn && (startBtn.onclick = () => {
-    // ✅ zeigt Code Screen
-    show(codeGate);
-    codeError.style.display = "none";
-    codeInput.value = "";
-    codeInput.focus();
-  });
+  if (startBtn) {
+    startBtn.onclick = () => {
+      show(codeGate);
+      if (codeError) {
+        codeError.style.display = "none";
+        codeError.textContent = "";
+      }
+      if (codeInput) {
+        codeInput.value = "";
+        codeInput.focus();
+      }
+    };
+  }
 
-  codeSubmit && (codeSubmit.onclick = checkCode);
-  codeInput && codeInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") checkCode();
-  });
+  if (codeSubmit) codeSubmit.onclick = checkCode;
+  if (codeInput) {
+    codeInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") checkCode();
+    });
+  }
 
-  /* ============ NAVIGATION ============ */
+  /* ============ NAVIGATION (WICHTIG: fehlte bei dir) ============ */
+  if (backWelcome) backWelcome.onclick = () => show(welcome);
+  if (backMenu) backMenu.onclick = () => show(menu);
+  if (backMenuFromFeelings) backMenuFromFeelings.onclick = () => show(menu);
+  if (backMenuFromShop) backMenuFromShop.onclick = () => show(menu);
+  if (backMenuFromNumbers) backMenuFromNumbers.onclick = () => show(menu);
+  if (backMenuFromColors) backMenuFromColors.onclick = () => show(menu);
+  if (backMenuFromLetters) backMenuFromLetters.onclick = () => show(menu);
+
+  /* Start Screen */
   show(welcome);
-
-  backWelcome && (backWelcome.onclick = () => show(welcome));
-  backMenu && (backMenu.onclick = () => show(menu));
-  backMenuFromFeelings && (backMenuFromFeelings.onclick = () => show(menu));
-  backMenuFromShop && (backMenuFromShop.onclick = () => show(menu));
-  backMenuFromNumbers && (backMenuFromNumbers.onclick = () => show(menu));
-  backMenuFromColors && (backMenuFromColors.onclick = () => show(menu));
-  backMenuFromLetters && (backMenuFromLetters.onclick = () => show(menu));
 
   /* =========================================================
      ===================== SPIEL 1 (ACTIONS) ==================
@@ -213,15 +228,16 @@ document.addEventListener("DOMContentLoaded", () => {
     { image:"images/sitzen.png", question:"ئەو مندالە چی دەکات؟", options:["دانیشتووە","مەلەوانی دەکات","دەگریت"], correct:0 }
   ];
 
-  function updateStars(){ starsEl.textContent = "⭐ " + stars; }
+  function updateStars(){ if (starsEl) starsEl.textContent = "⭐ " + stars; }
 
   function loadTask(){
     locked = false;
-    fb.textContent = "";
+    if (fb) fb.textContent = "";
     const t = tasks[current];
-    img.src = t.image;
-    q.textContent = t.question;
+    if (img) img.src = t.image;
+    if (q) q.textContent = t.question;
     [b0,b1,b2].forEach((btn,i)=>{
+      if(!btn) return;
       btn.textContent = t.options[i];
       btn.disabled = false;
     });
@@ -236,17 +252,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   [b0,b1,b2].forEach((btn,i)=>{
-    btn && btn.addEventListener("click", () => {
+    if(!btn) return;
+    btn.addEventListener("click", () => {
       if(locked) return;
 
       if(i === tasks[current].correct){
         locked = true;
         stars++;
         updateStars();
-        fb.textContent = "👏 ئافەرین ✅";
+        if (fb) fb.textContent = "👏 ئافەرین ✅";
         playAudio("audio/afarin.mp3");
         starBurst();
-        [b0,b1,b2].forEach(b=>b.disabled=true);
+        [b0,b1,b2].forEach(b=>b && (b.disabled=true));
 
         setTimeout(()=>{
           current++;
@@ -260,15 +277,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       } else {
         playAudio("audio/rastnia.mp3");
-        fb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
+        if (fb) fb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
         shake(game);
       }
     });
   });
 
   updateStars();
-
-  goGame && (goGame.onclick = () => { show(game); startGame1(); });
+  if (goGame) goGame.onclick = () => { show(game); startGame1(); };
 
   /* =========================================================
      ===================== GEFÜHLE ============================
@@ -298,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let fIndex = 0;
   let fLocked = false;
 
-  function updateFStars(){ fstarsEl.textContent = "⭐ " + fStars; }
+  function updateFStars(){ if (fstarsEl) fstarsEl.textContent = "⭐ " + fStars; }
 
   function setFeelingImage(imgEl, key){
     const base = "images/feelings/" + key;
@@ -310,17 +326,17 @@ document.addEventListener("DOMContentLoaded", () => {
     fStars = 0;
     fIndex = 0;
     updateFStars();
-    ffb.textContent = "";
+    if (ffb) ffb.textContent = "";
     shuffle(feelingsPool);
     nextFeeling();
   }
 
   function nextFeeling(){
     fLocked = false;
-    ffb.textContent = "";
+    if (ffb) ffb.textContent = "";
 
     const [correctKey, text] = feelingsPool[fIndex];
-    fq.textContent = text;
+    if (fq) fq.textContent = text;
     playAudio("audio/feelings/" + correctKey + ".mp3");
 
     const keys = [correctKey];
@@ -331,8 +347,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btns = [f0,f1,f2];
     btns.forEach((btn,i)=>{
+      if(!btn) return;
       const im = btn.querySelector("img");
-      setFeelingImage(im, keys[i]);
+      if (im) setFeelingImage(im, keys[i]);
       btn.disabled = false;
 
       btn.onclick = () => {
@@ -345,9 +362,9 @@ document.addEventListener("DOMContentLoaded", () => {
           fLocked = true;
           fStars++;
           updateFStars();
-          ffb.textContent = "ئافەرین ✅";
+          if (ffb) ffb.textContent = "ئافەرین ✅";
           starBurst();
-          btns.forEach(b => b.disabled = true);
+          btns.forEach(b => b && (b.disabled = true));
 
           setTimeout(() => {
             fIndex++;
@@ -360,19 +377,19 @@ document.addEventListener("DOMContentLoaded", () => {
           }, 800);
 
         } else {
-          ffb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
+          if (ffb) ffb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
           shake(feelings);
         }
       };
     });
   }
 
-  goFeelings && (goFeelings.onclick = () => { show(feelings); startFeelings(); });
+  if (goFeelings) goFeelings.onclick = () => { show(feelings); startFeelings(); };
 
   /* =========================================================
      ===================== SHOP ===============================
      ========================================================= */
-  goShop && (goShop.onclick = () => show(shop));
+  if (goShop) goShop.onclick = () => show(shop);
 
   /* =========================================================
      ===================== ZAHLEN =============================
@@ -389,21 +406,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const numberTasks = Array.from({length:11}, (_,i)=>i);
   const numLabel = ["٠","١","٢","٣","٤","٥","٦","٧","٨","٩","١٠"];
 
-  function updateNStars(){ nstarsEl.textContent = "⭐ " + nStars; }
+  function updateNStars(){ if (nstarsEl) nstarsEl.textContent = "⭐ " + nStars; }
 
   function startNumbers(){
     nStars = 0;
     nIndex = 0;
     updateNStars();
-    nfb.textContent = "";
+    if (nfb) nfb.textContent = "";
     shuffle(numberTasks);
     loadNumber();
   }
 
   function loadNumber(){
-    nfb.textContent = "";
+    if (nfb) nfb.textContent = "";
     const correct = numberTasks[nIndex];
-    nimg.src = "images/numbers/" + correct + ".png";
+    if (nimg) nimg.src = "images/numbers/" + correct + ".png";
 
     let opts = [correct];
     while(opts.length < 3){
@@ -414,6 +431,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btns = [n0,n1,n2];
     btns.forEach((btn,i)=>{
+      if(!btn) return;
       btn.textContent = numLabel[opts[i]];
 
       btn.onclick = () => {
@@ -441,18 +459,20 @@ document.addEventListener("DOMContentLoaded", () => {
           }, 900);
 
         } else {
-          nfb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
+          if (nfb) nfb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
           shake(numbers);
         }
       };
     });
   }
 
-  goNumbers && (goNumbers.onclick = () => {
-    show(numbers);
-    playAudio("audio/numbers/numbers.mp3");
-    startNumbers();
-  });
+  if (goNumbers) {
+    goNumbers.onclick = () => {
+      show(numbers);
+      playAudio("audio/numbers/numbers.mp3");
+      startNumbers();
+    };
+  }
 
   /* =========================================================
      ===================== FARBEN =============================
@@ -486,8 +506,8 @@ document.addEventListener("DOMContentLoaded", () => {
     cStars = 0;
     cIndex = 0;
     cLocked = false;
-    cstarsEl.textContent = "⭐ 0";
-    cfb.textContent = "";
+    if (cstarsEl) cstarsEl.textContent = "⭐ 0";
+    if (cfb) cfb.textContent = "";
 
     colorTasks = [];
     for(let i=0;i<10;i++){
@@ -500,12 +520,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function loadColorTask(){
     cLocked = false;
-    cfb.textContent = "";
+    if (cfb) cfb.textContent = "";
 
     const target = colorTasks[cIndex];
 
     playAudio("audio/colors/" + target.key + ".mp3");
-    cq.textContent = "کام ڕەنگە " + target.sorani + "ە؟";
+    if (cq) cq.textContent = "کام ڕەنگە " + target.sorani + "ە؟";
 
     const options = [target];
     while(options.length < 3){
@@ -515,8 +535,9 @@ document.addEventListener("DOMContentLoaded", () => {
     shuffle(options);
 
     cBtns.forEach((btn,i)=>{
+      if(!btn) return;
       const dot = btn.querySelector(".dot");
-      dot.style.background = options[i].css;
+      if (dot) dot.style.background = options[i].css;
 
       btn.disabled = false;
       btn.onclick = () => {
@@ -527,11 +548,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isCorrect) {
           cLocked = true;
           cStars++;
-          cstarsEl.textContent = "⭐ " + cStars;
+          if (cstarsEl) cstarsEl.textContent = "⭐ " + cStars;
           playAudio("audio/afarin.mp3");
           starBurst();
-          cBtns.forEach(b => b.disabled = true);
-          cfb.textContent = "ئافەرین ✅";
+          cBtns.forEach(b => b && (b.disabled = true));
+          if (cfb) cfb.textContent = "ئافەرین ✅";
 
           setTimeout(() => {
             cIndex++;
@@ -545,14 +566,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } else {
           playAudio("audio/rastnia.mp3");
-          cfb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
+          if (cfb) cfb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
           shake(colors);
         }
       };
     });
   }
 
-  goColors && (goColors.onclick = () => { show(colors); startColors(); });
+  if (goColors) goColors.onclick = () => { show(colors); startColors(); };
 
   /* =========================================================
      ===================== BUCHSTABEN =========================
@@ -607,18 +628,18 @@ document.addEventListener("DOMContentLoaded", () => {
     lStars = 0;
     lIndex = 0;
     lLocked = false;
-    lstarsEl.textContent = "⭐ 0";
-    lfb.textContent = "";
+    if (lstarsEl) lstarsEl.textContent = "⭐ 0";
+    if (lfb) lfb.textContent = "";
     shuffle(letterTasks);
     loadLetterTask();
   }
 
   function loadLetterTask(){
     lLocked = false;
-    lfb.textContent = "";
+    if (lfb) lfb.textContent = "";
 
     const t = letterTasks[lIndex];
-    limg.src = t.image;
+    if (limg) limg.src = t.image;
 
     const correct = t.correct;
     const pool = SORANI_LETTERS.filter(x => x !== correct);
@@ -629,6 +650,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btns = [l0, l1, l2];
     btns.forEach((btn, i) => {
+      if(!btn) return;
       btn.textContent = opts[i];
       btn.disabled = false;
 
@@ -641,10 +663,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isCorrect) {
           lLocked = true;
           lStars++;
-          lstarsEl.textContent = "⭐ " + lStars;
-          lfb.textContent = "ئافەرین ✅";
+          if (lstarsEl) lstarsEl.textContent = "⭐ " + lStars;
+          if (lfb) lfb.textContent = "ئافەرین ✅";
           starBurst();
-          btns.forEach(b => b.disabled = true);
+          btns.forEach(b => b && (b.disabled = true));
 
           setTimeout(() => {
             lIndex++;
@@ -657,12 +679,12 @@ document.addEventListener("DOMContentLoaded", () => {
           }, 800);
 
         } else {
-          lfb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
+          if (lfb) lfb.textContent = "بەداخەوە راست نیە، هەوڵ بدە دووبارە 🙂";
           shake(letters);
         }
       };
     });
   }
 
-  goLetters && (goLetters.onclick = () => { show(letters); startLetters(); });
+  if (goLetters) goLetters.onclick = () => { show(letters); startLetters(); };
 });
