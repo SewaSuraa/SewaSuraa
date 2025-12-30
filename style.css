@@ -17,12 +17,7 @@ body{
   direction: rtl;
 
   /* bunter Hintergrund */
-  background:
-    radial-gradient(circle at 20% 0%, #ffe66d 0%, transparent 45%),
-    radial-gradient(circle at 90% 20%, #ff6fd8 0%, transparent 45%),
-    radial-gradient(circle at 10% 90%, #7afcff 0%, transparent 45%),
-    radial-gradient(circle at 80% 90%, #a8ff78 0%, transparent 45%),
-    linear-gradient(180deg, #fff1a8 0%, #d9f7ff 40%, #ffe3f1 100%);
+
 }
 
 
