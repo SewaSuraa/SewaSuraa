@@ -11,6 +11,7 @@
 <section id="welcome" class="card">
   <h1>SewaSuraa</h1>
   <p class="subtitle">بەخێر بێیت بۆ ماڵی من 👋</p>
+  <p class="subtitle">📸 Instagram <b>@SewaSuraa</b> خۆشحاڵ دەبم ئەگەر لە ئینستاگرامیش سەردانم بکەیت </p>
 
   <img src="images/kind_winkt.png" class="hero" alt="منداڵ دەست لێدەدات">
 
@@ -21,7 +22,10 @@
   </p>
 
   <button id="startBtn" class="primary">دەستپێبکەین</button>
-  <section id="codeGate" class="card hidden" dir="rtl">
+</section>
+
+<!-- ✅ CodeGate muss AUSSERHALB von welcome sein -->
+<section id="codeGate" class="card hidden" dir="rtl">
   <h2>کۆد بنوسە</h2>
 
   <input
@@ -39,7 +43,6 @@
   </p>
 </section>
 
-</section>
 
 <section id="menu" class="card hidden">
   <h2>هەڵبژاردن</h2>
@@ -49,19 +52,29 @@
     <button id="goColors" class="tile">🎨 ڕەنگەکان</button>
     <button id="goFeelings" class="tile">😊 هەستەکان</button>
     <button id="goLetters" class="tile">🔤 پیتەکان</button>
+    <button id="goBodyParts" class="tile">👤 بەشەکانی جەستە</button>
+
+    <button id="goFruits" class="tile">🍎 میوەکان</button>
+    <button id="goVegetables" class="tile">🥕 سەوزەکان</button>
+    <button id="goFood" class="tile">🍽️ خواردنەکان</button>
+    <button id="goAnimals" class="tile">🐶 ئاژەڵەکان</button>
+    <button id="goClothes" class="tile">👕 جلوبەرگ</button>
+    <button id="goWeather" class="tile">☀️ کەشوهەوا</button>
+    <button id="goKitchen" class="tile">🍳 چێشتخانە</button>
+    <button id="goLivingRoom" class="tile">🛋️ هۆڵ</button>
+
     <button id="goGame" class="tile">🧠 ئەو منداڵە چی ئەکات؟</button>
+
     <button class="tile soon">🧩 پازل (بەم زوانە)</button>
-    <button class="tile soon">🍎 خواردن (بەم زوانە)</button>
     <button class="tile soon">🐄 ئاژەڵ و بەرهەمەکان (بەم زوانە)</button>
     <button class="tile soon">📏 گەورە / بچووک (بەم زوانە)</button>
     <button class="tile soon">🧠 بیرکردنەوە (بەم زوانە)</button>
+
     <button id="goShop" class="tile">🛍️ بۆ دایک و باوک – بەرهەمەکان</button>
   </div>
 
   <button id="backWelcome" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
 </section>
-
-
 
 <section id="game" class="card hidden">
   <div class="toprow">
@@ -81,8 +94,7 @@
   <p id="fb" class="feedback"></p>
 </section>
 
-
-
+<!-- Gefühle -->
 <section id="feelings" class="card hidden">
   <div class="toprow">
     <button id="backMenuFromFeelings" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
@@ -100,8 +112,7 @@
   <p id="ffb" class="feedback"></p>
 </section>
 
-
-
+<!-- Zahlen -->
 <section id="numbers" class="card hidden">
   <div class="toprow">
     <button id="backMenuFromNumbers" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
@@ -120,6 +131,7 @@
   <p id="nfb" class="feedback"></p>
 </section>
 
+<!-- Farben -->
 <section id="colors" class="card hidden">
   <div class="toprow">
     <button id="backMenuFromColors" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
@@ -137,7 +149,7 @@
   <p id="cfb" class="feedback"></p>
 </section>
 
-
+<!-- Buchstaben -->
 <section id="letters" class="card hidden">
   <div class="toprow">
     <button id="backMenuFromLetters" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
@@ -156,8 +168,169 @@
   <p id="lfb" class="feedback"></p>
 </section>
 
+<!-- Körperteile -->
+<section id="BodyParts" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromBodyParts" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="bpstars" class="stars">⭐ 0</p>
+  </div>
 
+  <p id="bpq" class="question"></p>
 
+  <div class="answers images">
+    <button id="bp0" type="button"><img alt=""></button>
+    <button id="bp1" type="button"><img alt=""></button>
+    <button id="bp2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="bpfb" class="feedback"></p>
+</section>
+
+<!-- Fruits -->
+<section id="fruits" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromFruits" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="frstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="frq" class="question"></p>
+
+  <div class="answers images">
+    <button id="fr0" type="button"><img alt=""></button>
+    <button id="fr1" type="button"><img alt=""></button>
+    <button id="fr2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="frfb" class="feedback"></p>
+</section>
+
+<!-- Vegetables -->
+<section id="vegetables" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromVegetables" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="vgstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="vgq" class="question"></p>
+
+  <div class="answers images">
+    <button id="vg0" type="button"><img alt=""></button>
+    <button id="vg1" type="button"><img alt=""></button>
+    <button id="vg2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="vgfb" class="feedback"></p>
+</section>
+
+<!-- Food -->
+<section id="food" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromFood" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="fdstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="fdq" class="question"></p>
+
+  <div class="answers images">
+    <button id="fd0" type="button"><img alt=""></button>
+    <button id="fd1" type="button"><img alt=""></button>
+    <button id="fd2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="fdfb" class="feedback"></p>
+</section>
+
+<!-- Animals -->
+<section id="animals" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromAnimals" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="anstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="anq" class="question"></p>
+
+  <div class="answers images">
+    <button id="an0" type="button"><img alt=""></button>
+    <button id="an1" type="button"><img alt=""></button>
+    <button id="an2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="anfb" class="feedback"></p>
+</section>
+
+<!-- Clothes -->
+<section id="clothes" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromClothes" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="clstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="clq" class="question"></p>
+
+  <div class="answers images">
+    <button id="cl0" type="button"><img alt=""></button>
+    <button id="cl1" type="button"><img alt=""></button>
+    <button id="cl2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="clfb" class="feedback"></p>
+</section>
+
+<!-- Kitchen -->
+<section id="kitchen" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromKitchen" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="kstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="kq" class="question"></p>
+
+  <div class="answers images">
+    <button id="k0" type="button"><img alt=""></button>
+    <button id="k1" type="button"><img alt=""></button>
+    <button id="k2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="kfb" class="feedback"></p>
+</section>
+
+<!-- Weather -->
+<section id="weather" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromWeather" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="wstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="wq" class="question"></p>
+
+  <div class="answers images">
+    <button id="w0" type="button"><img alt=""></button>
+    <button id="w1" type="button"><img alt=""></button>
+    <button id="w2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="wfb" class="feedback"></p>
+</section>
+
+<!-- Living Room -->
+<section id="livingRoom" class="card hidden">
+  <div class="toprow">
+    <button id="backMenuFromLivingRoom" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
+    <p id="lrstars" class="stars">⭐ 0</p>
+  </div>
+
+  <p id="lrq" class="question"></p>
+
+  <div class="answers images">
+    <button id="lr0" type="button"><img alt=""></button>
+    <button id="lr1" type="button"><img alt=""></button>
+    <button id="lr2" type="button"><img alt=""></button>
+  </div>
+
+  <p id="lrfb" class="feedback"></p>
+</section>
+
+<!-- Shop -->
 <section id="shop" class="card hidden">
   <div class="toprow">
     <button id="backMenuFromShop" class="secondary">⬅️ بگەرێوە بۆ سەرەتا</button>
@@ -183,7 +356,6 @@
   </div>
 </section>
 
-
-<script src="app.js?v=1"></script>
+<script src="app.js"></script>
 </body>
 </html>
