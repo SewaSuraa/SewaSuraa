@@ -26,7 +26,24 @@ button{ min-height:56px; font-size:19px; }
   font-weight:900;
 }
 
-/* ================= BODY – NEUTRAL ================= */
+/* ================= BODY – UNVERÄNDERT ================= */
+body{
+  background: radial-gradient(circle at 20% 0%, #ffe66d 0%, transparent 45%),
+              radial-gradient(circle at 90% 20%, #ff6fd8 0%, transparent 45%),
+              radial-gradient(circle at 10% 90%, #7afcff 0%, transparent 45%),
+              radial-gradient(circle at 80% 90%, #a8ff78 0%, transparent 45%),
+              #f4f6ff;
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:14px;
+  background: radial-gradient(circle at top, #fff1a8 0%, #d9f7ff 40%, #ffe3f1 100%);
+  font-family: "Noto Sans Arabic", system-ui, sans-serif;
+  direction: rtl;
+}
+
 body{
   margin:0;
   min-height:100vh;
@@ -34,24 +51,21 @@ body{
   justify-content:center;
   align-items:flex-start;
   padding:20px;
-  font-family: "Noto Sans Arabic", system-ui, sans-serif;
-  direction: rtl;
-  background:#ffffff; /* neutral */
 }
 
-/* ================= CARD – NEUTRAL ================= */
+/* ================= CARD – UNVERÄNDERT ================= */
 .hidden{ display:none !important; }
 
 .card{
   margin-top: 18px;
   width:100%;
   max-width:460px;
-  background:#ffffff; /* neutral */
+  background: rgba(255,255,255,0.94);
   border-radius:30px;
   padding:18px;
   text-align:center;
   box-shadow: 0 16px 36px rgba(0,0,0,.16);
-  border: 3px solid rgba(0,0,0,.05);
+  border: 3px solid rgba(255,255,255,.85);
   overflow:hidden;
   animation: popIn .45s ease;
 }
@@ -97,12 +111,12 @@ button:active{ transform: scale(.96); }
 }
 
 .secondary{
+  color:#111;
   background: linear-gradient(135deg, #ffe259, #ffa751);
-  color:#222;
-  box-shadow: 0 10px 0 rgba(0,0,0,.1);
+  box-shadow: 0 8px 0 rgba(0,0,0,.12);
 }
 
-/* ================= GRID / TILES – FELDER BUNT ================= */
+/* ================= GRID / TILES ================= */
 .grid{
   display:grid;
   gap:14px;
@@ -118,11 +132,12 @@ button:active{ transform: scale(.96); }
   animation: floaty 2.2s ease-in-out infinite;
 }
 
-/* normale Felder neutral */
-.grid .tile{ background:#ffffff; }
-
-.grid .tile:nth-child(odd){ animation-delay:.15s; }
-.grid .tile:nth-child(even){ animation-delay:.55s; }
+/* 👉 NUR DIE FELDER BUNT */
+.grid .tile:nth-child(1){ background:linear-gradient(135deg,#a1c4fd,#c2e9fb); }
+.grid .tile:nth-child(2){ background:linear-gradient(135deg,#84fab0,#8fd3f4); }
+.grid .tile:nth-child(3){ background:linear-gradient(135deg,#ff9a9e,#fad0c4); }
+.grid .tile:nth-child(4){ background:linear-gradient(135deg,#fbc2eb,#a6c1ee); }
+.grid .tile:nth-child(5){ background:linear-gradient(135deg,#ffe259,#ffa751); }
 
 @keyframes floaty{
   0%,100%{ transform: translateY(0); }
@@ -133,23 +148,6 @@ button:active{ transform: scale(.96); }
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 14px 0 rgba(0,0,0,.16);
 }
-
-/* ================= NUR FELDER MIT STATUS BUNT ================= */
-.tile.soon{
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-  color:#000;
-  opacity:1;
-  cursor:default;
-  box-shadow: 0 6px 0 rgba(0,0,0,.15);
-}
-
-.tile.soon:nth-of-type(6){ background:linear-gradient(135deg,#a1c4fd,#c2e9fb); }
-.tile.soon:nth-of-type(7){ background:linear-gradient(135deg,#84fab0,#8fd3f4); }
-.tile.soon:nth-of-type(8){ background:linear-gradient(135deg,#fbc2eb,#a6c1ee); }
-.tile.soon:nth-of-type(9){ background:linear-gradient(135deg,#fddb92,#d1fdff); }
-.tile.soon:nth-of-type(10){ background:linear-gradient(135deg,#ffecd2,#fcb69f); }
-
-.tile.soon:active{ transform:none; }
 
 /* ================= ANSWERS ================= */
 .answers{
@@ -163,10 +161,16 @@ button:active{ transform: scale(.96); }
 }
 
 .answers.images button{
-  padding:8px;
-  border-radius:22px;
-  background: linear-gradient(135deg,#a1c4fd,#c2e9fb);
+  background:linear-gradient(135deg,#a1c4fd,#c2e9fb);
   box-shadow: 0 8px 0 rgba(0,0,0,.1);
+}
+
+.answers.images button:nth-child(2){
+  background:linear-gradient(135deg,#84fab0,#8fd3f4);
+}
+
+.answers.images button:nth-child(3){
+  background:linear-gradient(135deg,#ffecd2,#fcb69f);
 }
 
 .answers.images img{
@@ -183,57 +187,23 @@ button:active{ transform: scale(.96); }
 }
 
 .colorBtn{
-  padding:14px;
-  border-radius:22px;
-  background: linear-gradient(135deg,#84fab0,#8fd3f4);
+  background:linear-gradient(135deg,#a1c4fd,#c2e9fb);
   box-shadow: 0 8px 0 rgba(0,0,0,.1);
 }
 
-.colorBtn:nth-child(2){ background:linear-gradient(135deg,#ffecd2,#fcb69f); }
-.colorBtn:nth-child(3){ background:linear-gradient(135deg,#a1c4fd,#c2e9fb); }
-
-.colorBtn .dot{
-  display:block;
-  width:100%;
-  height:90px;
-  border-radius:22px;
-  border:3px solid rgba(255,255,255,.85);
+.colorBtn:nth-child(2){
+  background:linear-gradient(135deg,#ffecd2,#fcb69f);
 }
 
-/* ================= FEEDBACK / FX ================= */
+.colorBtn:nth-child(3){
+  background:linear-gradient(135deg,#84fab0,#8fd3f4);
+}
+
+/* ================= FEEDBACK ================= */
 .feedback{
   min-height:30px;
   font-weight:900;
   margin-top:10px;
   font-size:18px;
   color:#333;
-}
-
-.shake{ animation: shake .28s ease-in-out; }
-@keyframes shake{
-  0%{ transform: translateX(0); }
-  25%{ transform: translateX(6px); }
-  50%{ transform: translateX(-6px); }
-  75%{ transform: translateX(5px); }
-  100%{ transform: translateX(0); }
-}
-
-/* ================= STARS ================= */
-.starburst{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:9999;
-}
-
-.star{
-  position:absolute;
-  font-size:26px;
-  animation: starPop .8s ease forwards;
-}
-
-@keyframes starPop{
-  0%{ transform: translateY(0) scale(.6); opacity:0; }
-  15%{ opacity:1; }
-  100%{ transform: translateY(-90px) scale(1.25); opacity:0; }
 }
