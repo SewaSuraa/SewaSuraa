@@ -28,15 +28,17 @@ body{
   margin-top: 18px;
   width:100%;
   max-width:460px;
-  background: rgba(255,255,255,0.90);
+  background: #ffffff; /* komplett weiß */
   border-radius:30px;
   padding:18px;
   text-align:center;
   box-shadow: 0 16px 36px rgba(0,0,0,.16);
-  border: 3px solid rgba(255,255,255,.85);
+  border: 2px solid rgba(0,0,0,.05); /* dezenter Rand */
   overflow:hidden;
   animation: popIn .45s ease;
 }
+
+
 
 @keyframes popIn{
   from{ transform: translateY(12px) scale(.98); opacity:.4; }
