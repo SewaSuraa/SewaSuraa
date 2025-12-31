@@ -360,7 +360,7 @@ if (goColors) goColors.onclick = () => show(colors);
 if (goLetters) goLetters.onclick = () => show(letters);
 if (goBodyParts) goBodyParts.onclick = () => show(BodyParts);
 
-if (goFruits) goFruits.onclick = () => show(fruits);
+if (goFruits) goFruits.onclick = () => { show(fruits); fruitsGame.start(); };
 if (goVegetables) goVegetables.onclick = () => show(vegetables);
 if (goFood) goFood.onclick = () => show(food);
 if (goAnimals) goAnimals.onclick = () => show(animals);
