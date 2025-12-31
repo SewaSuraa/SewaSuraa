@@ -951,7 +951,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["zitrone","لیمۆ"],
       ["zwiebel","پیاز"]
     ],
-    imgBaseDir: "images/vegetables",
+    imgBaseDir: "images/numbers/vegetables",
     audioBaseDir: "audio/hamwi"
   });
 
