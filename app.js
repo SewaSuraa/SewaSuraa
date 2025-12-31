@@ -1101,7 +1101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["wind","با"],
       ["wolke","هەور"]
     ],
-    imgBaseDir: "images/weather",
+    imgBaseDir: "images/koeper/weather",
     audioBaseDir: "audio/hamwi"
   });
 
