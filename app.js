@@ -911,7 +911,7 @@ document.addEventListener("DOMContentLoaded", () => {
       ["apfel","سێو"],
       ["banane","مۆز"],
       ["birne","هەرمێ"],
-      ["erdebeere","شلیک"],
+      ["erdbeere","شلیک"],
       ["feige","هەنجیر"],
       ["kirsche","گێلاس"],
       ["kiwi","کیوی"],
