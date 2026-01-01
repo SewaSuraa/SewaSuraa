@@ -159,3 +159,31 @@ button:active{ transform: scale(.96); }
   background:#fff !important;
 }
 
+/* ✅ Menü-Bilder in .grid sauber machen */
+.grid > .tile img,
+.grid > button.tile img{
+  display:block;
+  width:100%;
+  max-width:140px;     /* 👈 Größe hier anpassen */
+  height:110px;        /* 👈 feste Höhe verhindert Chaos */
+  object-fit:contain;  /* nicht schneiden */
+  margin:6px auto 0;   /* zentrieren */
+  border-radius:16px;
+  background: rgba(255,255,255,.55); /* damit es lesbar bleibt auf Gradient */
+  padding:6px;
+}
+
+/* falls du SVG Icons benutzt */
+.grid > .tile svg,
+.grid > button.tile svg{
+  width:48px;
+  height:48px;
+  display:block;
+  margin:6px auto 0;
+}
+
+/* falls Bilder “überlaufen” */
+.grid > .tile,
+.grid > button.tile{
+  overflow:hidden;
+}
