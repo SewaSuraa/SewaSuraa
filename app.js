@@ -17,14 +17,77 @@ document.addEventListener("DOMContentLoaded", () => {
   /* ============ AUDIO (NICHT BLOCKIEREND) ============ */
   let currentAudio = null;
 
+  // ✅ iOS/Android Autoplay-Fix: Audio erst nach User-Geste freischalten
+  let audioUnlocked = false;
+  let pendingPaths = null;
+  let audioCtx = null;
+
   function stopAudio() {
     if (!currentAudio) return;
     try { currentAudio.pause(); currentAudio.currentTime = 0; } catch {}
     currentAudio = null;
   }
 
+  // Tiny silent MP3 (very small) to unlock HTMLAudio on mobile browsers
+  const SILENT_MP3 =
+    "data:audio/mpeg;base64,//uQZAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCA" +
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
+    "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+
+  function unlockAudio() {
+    if (audioUnlocked) return;
+
+    audioUnlocked = true;
+
+    // Try unlock via WebAudio (optional)
+    try {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) {
+        audioCtx = audioCtx || new Ctx();
+        if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+
+        // play a tiny silent buffer
+        const buf = audioCtx.createBuffer(1, 1, 22050);
+        const src = audioCtx.createBufferSource();
+        src.buffer = buf;
+        src.connect(audioCtx.destination);
+        src.start(0);
+      }
+    } catch {}
+
+    // Try unlock via HTMLAudio (helps iOS Safari)
+    try {
+      const a = new Audio(SILENT_MP3);
+      a.volume = 0;
+      a.play().then(() => {
+        try { a.pause(); } catch {}
+      }).catch(() => {});
+    } catch {}
+
+    // Play pending audio if user clicked before unlock was ready
+    if (pendingPaths && pendingPaths.length) {
+      const p = pendingPaths;
+      pendingPaths = null;
+      playSequence(p);
+    }
+  }
+
+  // Register user gesture listeners once
+  ["pointerdown", "touchstart", "mousedown", "keydown"].forEach(evt => {
+    document.addEventListener(evt, unlockAudio, { passive: true, once: true });
+  });
+
   function playSequence(paths) {
     if (!paths || !paths.length) return;
+
+    // If mobile blocks audio until user gesture, queue it
+    if (!audioUnlocked) {
+      pendingPaths = paths.slice();
+      return;
+    }
 
     stopAudio();
 
@@ -34,11 +97,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const a = new Audio(paths[i]);
       currentAudio = a;
+      a.preload = "auto";
 
       a.onended = () => { i++; playNext(); };
       a.onerror = () => { i++; playNext(); };
 
-      a.play().catch(() => {});
+      a.play().catch(() => {
+        // If still blocked, queue again and wait for next user gesture
+        pendingPaths = paths.slice(i);
+        audioUnlocked = false;
+        ["pointerdown", "touchstart", "mousedown", "keydown"].forEach(evt => {
+          document.addEventListener(evt, unlockAudio, { passive: true, once: true });
+        });
+      });
     };
 
     playNext();
@@ -184,27 +255,25 @@ document.addEventListener("DOMContentLoaded", () => {
       let data = null;
       try { data = await r.json(); } catch { data = null; }
 
-   if (r.ok && data && data.valid) {
-  // ✅ 3 Monate – am besten vom Server, sonst fallback
-let until =
-  data?.expires_at ? Date.parse(data.expires_at) :
-  (data?.unlock_until ? Number(data.unlock_until) : NaN);
+      if (r.ok && data && data.valid) {
+        // ✅ 3 Monate – am besten vom Server, sonst fallback
+        let until =
+          data?.expires_at ? Date.parse(data.expires_at) :
+          (data?.unlock_until ? Number(data.unlock_until) : NaN);
 
-// ✅ wenn unlock_until in Sekunden kommt -> in ms umrechnen
-if (Number.isFinite(until) && until < 1e12) until = until * 1000;
+        // ✅ wenn unlock_until in Sekunden kommt -> in ms umrechnen
+        if (Number.isFinite(until) && until < 1e12) until = until * 1000;
 
-if (Number.isFinite(until) && until > Date.now()) {
-  localStorage.setItem("unlock_until", String(until));
-} else {
-  // fallback 90 Tage (nur falls Server nix schickt)
-  localStorage.setItem("unlock_until", String(Date.now() + 90*24*60*60*1000));
-}
+        if (Number.isFinite(until) && until > Date.now()) {
+          localStorage.setItem("unlock_until", String(until));
+        } else {
+          // fallback 90 Tage (nur falls Server nix schickt)
+          localStorage.setItem("unlock_until", String(Date.now() + 90*24*60*60*1000));
+        }
 
-
-  localStorage.setItem("unlocked_device", getDeviceId());
-  show(menu);
-}
- else {
+        localStorage.setItem("unlocked_device", getDeviceId());
+        show(menu);
+      } else {
         if (codeError) {
           codeError.style.display = "block";
           codeError.textContent = "کۆد هەڵەیە ❌";
@@ -262,18 +331,17 @@ if (Number.isFinite(until) && until > Date.now()) {
   if (backMenuFromLivingRoom) backMenuFromLivingRoom.onclick = () => show(menu);
   if (backMenuFromShop) backMenuFromShop.onclick = () => show(menu);
 
-  /* Start Screen */
-const until = Number(localStorage.getItem("unlock_until") || 0);
-const devOk = localStorage.getItem("unlocked_device") === getDeviceId();
+  /* Start Screen (✅ nur einmal Code bis Ablauf) */
+  const until = Number(localStorage.getItem("unlock_until") || 0);
+  const devOk = localStorage.getItem("unlocked_device") === getDeviceId();
 
-if (devOk && until && Date.now() < until) {
-  show(menu);
-} else {
-  localStorage.removeItem("unlock_until");
-  localStorage.removeItem("unlocked_device");
-  show(welcome);
-}
-
+  if (devOk && until && Date.now() < until) {
+    show(menu);
+  } else {
+    localStorage.removeItem("unlock_until");
+    localStorage.removeItem("unlocked_device");
+    show(welcome);
+  }
 
   /* =========================================================
      ===================== SPIEL 1 (ACTIONS) ==================
