@@ -158,36 +158,3 @@ button:active{ transform: scale(.96); }
 .answers .tile{
   background:#fff !important;
 }
-
-/* ✅ FORCE: Alle Menü-Kacheln bunt (auch wenn es BUTTONS sind) */
-.grid > .tile,
-.grid > button.tile{
-  color:#222 !important;
-}
-
-/* Farb-Rotation für ALLE Menüfelder */
-.grid > .tile:nth-child(5n+1),
-.grid > button.tile:nth-child(5n+1){
-  background: linear-gradient(135deg,#ff9a9e,#fad0c4) !important;
-}
-
-.grid > .tile:nth-child(5n+2),
-.grid > button.tile:nth-child(5n+2){
-  background: linear-gradient(135deg,#a1c4fd,#c2e9fb) !important;
-}
-
-.grid > .tile:nth-child(5n+3),
-.grid > button.tile:nth-child(5n+3){
-  background: linear-gradient(135deg,#84fab0,#8fd3f4) !important;
-}
-
-.grid > .tile:nth-child(5n+4),
-.grid > button.tile:nth-child(5n+4){
-  background: linear-gradient(135deg,#fddb92,#d1fdff) !important;
-}
-
-.grid > .tile:nth-child(5n),
-.grid > button.tile:nth-child(5n){
-  background: linear-gradient(135deg,#fbc2eb,#a6c1ee) !important;
-}
-
