@@ -184,9 +184,23 @@ document.addEventListener("DOMContentLoaded", () => {
       let data = null;
       try { data = await r.json(); } catch { data = null; }
 
-      if (r.ok && data && data.valid) {
-        show(menu);
-      } else {
+   if (r.ok && data && data.valid) {
+  // ✅ 3 Monate – am besten vom Server, sonst fallback
+  const until =
+    data?.expires_at ? Date.parse(data.expires_at) :
+    (data?.unlock_until ? Number(data.unlock_until) : NaN);
+
+  if (Number.isFinite(until) && until > Date.now()) {
+    localStorage.setItem("unlock_until", String(until));
+  } else {
+    // fallback 90 Tage (nur falls Server nix schickt)
+    localStorage.setItem("unlock_until", String(Date.now() + 90*24*60*60*1000));
+  }
+
+  localStorage.setItem("unlocked_device", getDeviceId());
+  show(menu);
+}
+ else {
         if (codeError) {
           codeError.style.display = "block";
           codeError.textContent = "کۆد هەڵەیە ❌";
@@ -245,7 +259,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (backMenuFromShop) backMenuFromShop.onclick = () => show(menu);
 
   /* Start Screen */
+const until = Number(localStorage.getItem("unlock_until") || 0);
+const devOk = localStorage.getItem("unlocked_device") === getDeviceId();
+
+if (devOk && until && Date.now() < until) {
+  show(menu);
+} else {
+  localStorage.removeItem("unlock_until");
+  localStorage.removeItem("unlocked_device");
   show(welcome);
+}
+
 
   /* =========================================================
      ===================== SPIEL 1 (ACTIONS) ==================
