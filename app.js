@@ -762,7 +762,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const [correctKey, soraniText] = BodyPartsPool[bpIndex];
     if (bpQ) bpQ.textContent = soraniText;
 
-    playAudio("audio/hamwi/" + correctKey + ".mp3");
+    playAudio("images/fruits" + correctKey + ".mp3");
 
     const keys = [correctKey];
     const others = BodyPartsPool.map(x=>x[0]).filter(k=>k!==correctKey);
