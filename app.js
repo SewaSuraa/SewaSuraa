@@ -186,16 +186,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
    if (r.ok && data && data.valid) {
   // ✅ 3 Monate – am besten vom Server, sonst fallback
-  const until =
-    data?.expires_at ? Date.parse(data.expires_at) :
-    (data?.unlock_until ? Number(data.unlock_until) : NaN);
+let until =
+  data?.expires_at ? Date.parse(data.expires_at) :
+  (data?.unlock_until ? Number(data.unlock_until) : NaN);
 
-  if (Number.isFinite(until) && until > Date.now()) {
-    localStorage.setItem("unlock_until", String(until));
-  } else {
-    // fallback 90 Tage (nur falls Server nix schickt)
-    localStorage.setItem("unlock_until", String(Date.now() + 90*24*60*60*1000));
-  }
+// ✅ wenn unlock_until in Sekunden kommt -> in ms umrechnen
+if (Number.isFinite(until) && until < 1e12) until = until * 1000;
+
+if (Number.isFinite(until) && until > Date.now()) {
+  localStorage.setItem("unlock_until", String(until));
+} else {
+  // fallback 90 Tage (nur falls Server nix schickt)
+  localStorage.setItem("unlock_until", String(Date.now() + 90*24*60*60*1000));
+}
+
 
   localStorage.setItem("unlocked_device", getDeviceId());
   show(menu);
